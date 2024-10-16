@@ -1,0 +1,41 @@
+def find_iceberg_position():
+    """Find the position of the iceberg using the get_all_positions and get_cell function."""
+    for row, col in get_all_positions():
+        if get_cell(row, col) == '🧊':
+            return [row, col]
+    return None
+
+def auto_pilot_next_step(titanic_row, titanic_col, ocean_size):
+    """Determine the next step for the Titanic to avoid the iceberg and move west."""
+    iceberg_position = find_iceberg_position()
+
+    if iceberg_position:
+        iceberg_row, iceberg_col = iceberg_position
+
+        # Case 1: Titanic and iceberg are on the same row
+        if titanic_row == iceberg_row:
+            if titanic_col > iceberg_col:
+                # Move west if Titanic is east of the iceberg (safe)
+                return "WEST"
+            else:
+                # Avoid iceberg by moving north or south if Titanic is west of the iceberg
+                if titanic_row > 0:
+                    return "NORTH"
+                else:
+                    return "SOUTH"
+
+        # Case 2: Titanic and iceberg are on the same column
+        if titanic_col == iceberg_col:
+            if titanic_row > iceberg_row:
+                # Move north if Titanic is south of the iceberg (safe)
+                return "NORTH"
+            else:
+                # Move south if Titanic is north of the iceberg (safe)
+                return "SOUTH"
+
+    # Case 3: If no immediate danger, move west towards safety
+    if titanic_col > 0:
+        return "WEST"
+    
+    # Case 4: If Titanic is already on the westmost edge (column 0), it should still attempt to move west to escape
+    return "WEST"
