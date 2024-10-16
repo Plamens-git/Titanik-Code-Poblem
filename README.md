@@ -1,2 +1,1 @@
-# Titanik-Code-Poblem
-Python challenge on the Iceberg vs Titanic challenge for Masterschool
+Python scripts for different purposes please read the info.
